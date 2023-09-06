@@ -2,17 +2,36 @@ import { Google } from "@mui/icons-material"
 import { Button, Grid, Link, TextField, Typography } from "@mui/material"
 import { Link as RouterLink } from 'react-router-dom'
 import { AuthLayout } from "../layout/AuthLayout"
+import { useForm } from "../../hooks/useForm"
+import { useDispatch } from "react-redux"
+import { checkingAuthentication, startGoogleSignIn } from "../../store/auth/thunks"
 export const LoginPage = () => {
+
+	const dispatch = useDispatch();
+
+	const {email, password, onInputChange} = useForm({
+		email: 'eduvilla@google.com',
+		password: '123456',
+	})
+
+	const onSubmit = ( ) =>{
+		dispatch(checkingAuthentication());
+	}
+
+	const onGoogleSignIn = () => {
+		dispatch(startGoogleSignIn())
+	}
+
 	return (
 		<AuthLayout title="Login">
-				<form>
+				<form onSubmit={onSubmit}>
 
 					<Grid container>
 						<Grid item xs={12} sx={{ mt: 2}}>
-							<TextField label="Correo" type="email" placeholder="correo@google.com" fullWidth />
+							<TextField label="Correo" type="email" placeholder="correo@google.com" name="email" value={email} onChange={onInputChange} fullWidth />
 						</Grid>
 						<Grid item xs={12} sx={{ mt: 2}}>
-							<TextField label="Contraseña" type="password" placeholder="Contraseña" fullWidth />
+							<TextField label="Contraseña" type="password" placeholder="Contraseña" name="password" value={password} onChange={onInputChange} fullWidth />
 						</Grid>
 					</Grid>
 
@@ -23,7 +42,7 @@ export const LoginPage = () => {
 							</Button>
 						</Grid>
 						<Grid item xs={12} md={6}>
-							<Button type="submit" variant="contained" fullWidth>
+							<Button variant="contained" fullWidth onClick={onGoogleSignIn}>
 								<Google />
 								<Typography sx={{ml: 1}}>Google</Typography>
 							</Button>
