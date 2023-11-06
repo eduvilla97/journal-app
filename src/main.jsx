@@ -7,8 +7,6 @@ import { JournalApp } from './JournalApp'
 import { Provider } from 'react-redux'
 import { store } from './store/store'
 
-console.log({ process.env.REACT_APP_APIKEY });
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
