@@ -1,6 +1,6 @@
 import { IconButton } from "@mui/material"
 import { JournalLayout } from "../layout/JournalLayout"
-import { NothingSelectedView, NoteView } from "../views/"
+import { NothingSelectedView } from "../views/"
 import { AddOutlined } from "@mui/icons-material"
 
 export const JournalPage = () => {

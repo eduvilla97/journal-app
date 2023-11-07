@@ -1,15 +1,15 @@
 import { Google } from '@mui/icons-material';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks/useForm';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkingAuthentication, startGoogleSignIn } from '../../store/auth/thunks';
+import { startEmailAndPasswordLogin, startGoogleSignIn } from '../../store/auth/thunks';
 import { useMemo } from 'react';
 import { statuses } from '../../store/auth/authSlice';
 
 export const LoginPage = () => {
-	const { status } = useSelector((state) => state.auth);
+	const { status, errorMessage } = useSelector((state) => state.auth);
 	const isAuthenticating = useMemo(() => status === statuses.checking, [status]);
 	const dispatch = useDispatch();
 
@@ -19,7 +19,7 @@ export const LoginPage = () => {
 	});
 
 	const onSubmit = () => {
-		dispatch(checkingAuthentication());
+		dispatch(startEmailAndPasswordLogin({ email, password }));
 	};
 
 	const onGoogleSignIn = () => {
@@ -28,7 +28,7 @@ export const LoginPage = () => {
 
 	return (
 		<AuthLayout title='Login'>
-			<form onSubmit={onSubmit}>
+			<form>
 				<Grid container>
 					<Grid item xs={12} sx={{ mt: 2 }}>
 						<TextField
@@ -54,9 +54,26 @@ export const LoginPage = () => {
 					</Grid>
 				</Grid>
 
+				<Grid
+					container
+					spacing={2}
+					justifyContent='center'
+					sx={{ mb: 2, mt: 1, display: errorMessage ? '' : 'none' }}
+				>
+					<Grid item xs={12}>
+						<Alert severity='error'>{errorMessage}</Alert>
+					</Grid>
+				</Grid>
+
 				<Grid container spacing={2} justifyContent='center' sx={{ mb: 2, mt: 1 }}>
 					<Grid item xs={12} md={6}>
-						<Button type='submit' variant='contained' fullWidth disabled={isAuthenticating}>
+						<Button
+							type='submit'
+							variant='contained'
+							fullWidth
+							disabled={isAuthenticating}
+							onClick={onSubmit}
+						>
 							Login
 						</Button>
 					</Grid>

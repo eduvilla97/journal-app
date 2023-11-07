@@ -9,7 +9,7 @@ export const statuses = {
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState: {
-		status: statuses.notAuthenticated,
+		status: statuses.checking,
 		uid: null,
 		email: null,
 		displayName: null,
@@ -31,7 +31,7 @@ export const authSlice = createSlice({
 				(state.email = null),
 				(state.displayName = null),
 				(state.photoURL = null),
-				(state.errorMessage = payload.errorMessage);
+				(state.errorMessage = payload?.errorMessage || null);
 		},
 		checkingCredentials: (state) => {
 			state.status = statuses.checking;
