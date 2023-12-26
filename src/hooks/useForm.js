@@ -24,6 +24,11 @@ export const useForm = (initialForm = {}, initialFormValidations = {}) => {
 		}
 	}, [formValidation]);
 
+	useEffect(() => {
+		setFormState(initialForm);
+		createValidators();
+	}, [initialForm]);
+
 	const onResetForm = () => {
 		setFormState(initialForm);
 	};

@@ -8,15 +8,18 @@ import { startEmailAndPasswordLogin, startGoogleSignIn } from '../../store/auth/
 import { useMemo } from 'react';
 import { statuses } from '../../store/auth/authSlice';
 
+
+const formData = {
+	email: '',
+	password: '',
+};
+
 export const LoginPage = () => {
 	const { status, errorMessage } = useSelector((state) => state.auth);
 	const isAuthenticating = useMemo(() => status === statuses.checking, [status]);
 	const dispatch = useDispatch();
 
-	const { email, password, onInputChange } = useForm({
-		email: 'eduvilla@google.com',
-		password: '123456',
-	});
+	const { email, password, onInputChange } = useForm(formData);
 
 	const onSubmit = () => {
 		dispatch(startEmailAndPasswordLogin({ email, password }));
